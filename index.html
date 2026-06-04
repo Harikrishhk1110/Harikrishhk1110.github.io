@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harikrishnan Document Hub - BBW Production Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+</head>
+<body>
+
+<!-- Navigation Tabs -->
+<nav class="navbar">
+    <div class="nav-container">
+        <h1 class="logo">📁 Harikrishnan Document Hub</h1>
+        <div class="nav-tabs">
+            <button class="nav-btn active" onclick="switchTab('hub')">📁 Document Hub</button>
+            <button class="nav-btn" onclick="switchTab('dashboard')">📊 BBW Dashboard</button>
+            <button class="nav-btn" onclick="switchTab('mtr')">📝 MTR Form</button>
+        </div>
+    </div>
+</nav>
+
+<!-- ============ TAB 1: DOCUMENT HUB ============ -->
+<div id="hub" class="tab-content active">
+    <header class="header-section">
+        <h1>📁 Document Hub</h1>
+        <p>Access Excel, PDF and Word Documents</p>
+    </header>
+
+    <div class="container">
+        <input type="text" id="searchBox" placeholder="🔍 Search documents..." onkeyup="searchFiles()">
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterByType('all')">All</button>
+            <button class="filter-btn" onclick="filterByType('xlsx')">📊 Excel</button>
+            <button class="filter-btn" onclick="filterByType('pdf')">📕 PDF</button>
+            <button class="filter-btn" onclick="filterByType('docx')">📄 Word</button>
+        </div>
+
+        <div class="upload-section">
+            <h3>📤 Upload New Document</h3>
+            <input type="file" id="fileUpload" multiple>
+            <button onclick="uploadFile()" class="btn-upload">Upload</button>
+        </div>
+
+        <ul id="fileList" class="file-list">
+            <li class="file-item" data-type="xlsx">
+                <a href="#" onclick="alert('Upload your files to get started!')">
+                    📊 Sample Report.xlsx
+                </a>
+                <button onclick="deleteFile('Sample Report.xlsx')" class="btn-delete">Delete</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- ============ TAB 2: BBW PRODUCTION DASHBOARD ============ -->
+<div id="dashboard" class="tab-content">
+    <header class="header-section">
+        <h1>📊 BBW Production Dashboard</h1>
+        <p>Today's Run: <strong id="todayRun">CURITY20260604-01</strong></p>
+    </header>
+
+    <div class="container">
+        <div class="dashboard-grid">
+            <!-- Inventory Status -->
+            <div class="dashboard-card">
+                <h2>🏭 CURITY Inventory</h2>
+                <div class="inventory-info">
+                    <div class="info-item">
+                        <span>Total Items:</span>
+                        <strong id="totalItems">245</strong>
+                    </div>
+                    <div class="info-item">
+                        <span>In Stock:</span>
+                        <strong id="inStock">198</strong>
+                    </div>
+                    <div class="info-item">
+                        <span>Low Stock:</span>
+                        <strong id="lowStock">35</strong>
+                    </div>
+                    <div class="info-item">
+                        <span>Out of Stock:</span>
+                        <strong id="outOfStock">12</strong>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="switchTab('mtr')">Request Items</button>
+            </div>
+
+            <!-- Packing List -->
+            <div class="dashboard-card">
+                <h2>📦 Packing List</h2>
+                <div class="packing-info">
+                    <input type="text" id="searchItemNumber" placeholder="Search Item Number..." onkeyup="searchInventory()">
+                    <div id="packingItems" class="items-list">
+                        <p style="text-align:center; color:#999;">No items in list</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Staging Area -->
+            <div class="dashboard-card">
+                <h2>🚀 Staging</h2>
+                <div class="staging-info">
+                    <div class="status-badge ready">Ready: 0</div>
+                    <div class="status-badge pending">Pending: 0</div>
+                    <div class="status-badge shipped">Shipped: 0</div>
+                </div>
+                <textarea placeholder="Add staging notes..." class="notes-box"></textarea>
+                <button class="btn-primary">Update Status</button>
+            </div>
+
+            <!-- Inbound Items -->
+            <div class="dashboard-card">
+                <h2>📥 Inbound</h2>
+                <div class="inbound-info">
+                    <table class="inbound-table">
+                        <tr>
+                            <th>Item ID</th>
+                            <th>Expected Date</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr>
+                            <td>IT-001</td>
+                            <td>2026-06-10</td>
+                            <td><span class="badge pending">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>IT-002</td>
+                            <td>2026-06-15</td>
+                            <td><span class="badge pending">Pending</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Search -->
+        <div class="search-section">
+            <h3>🔍 Search Item Number</h3>
+            <input type="text" id="itemSearch" placeholder="Enter Item Number..." class="search-input">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ TAB 3: MTR FORM ============ -->
+<div id="mtr" class="tab-content">
+    <header class="header-section">
+        <h1>📝 Material Request Form (MTR)</h1>
+        <p>Auto-Generate Material Request Reports</p>
+    </header>
+
+    <div class="container">
+        <div class="mtr-form-container">
+            <!-- Form Section -->
+            <div class="mtr-form">
+                <h2>Add Material Request</h2>
+                
+                <div class="form-group">
+                    <label>MTR Number (Auto):</label>
+                    <input type="text" id="mtrNumber" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Item Number:</label>
+                    <input type="text" id="itemNumber" placeholder="e.g., CURITY-001">
+                </div>
+
+                <div class="form-group">
+                    <label>Item Description:</label>
+                    <input type="text" id="itemDescription" placeholder="e.g., Sterile Gauze Pads">
+                </div>
+
+                <div class="form-group">
+                    <label>Quantity:</label>
+                    <input type="number" id="quantity" placeholder="0" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Unit:</label>
+                    <select id="unit">
+                        <option>Pieces</option>
+                        <option>Box</option>
+                        <option>Carton</option>
+                        <option>Pack</option>
+                        <option>Pallet</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Priority:</label>
+                    <select id="priority">
+                        <option>Normal</option>
+                        <option>High</option>
+                        <option>Urgent</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Notes:</label>
+                    <textarea id="notes" placeholder="Additional notes..."></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="addMaterialRequest()">➕ Add to Request</button>
+            </div>
+
+            <!-- Requests List -->
+            <div class="mtr-requests">
+                <h2>📋 Material Requests List</h2>
+                <div id="requestsList" class="requests-table">
+                    <p style="text-align:center; color:#999;">No requests yet. Add one to start!</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="generateMTRReport()">📄 Generate MTR Report</button>
+                    <button class="btn-secondary" onclick="clearAllRequests()">🗑️ Clear All</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MTR Report Preview -->
+        <div id="mtrReportPreview" class="mtr-report" style="display:none;">
+            <button onclick="printMTRReport()" class="btn-print">🖨️ Print Report</button>
+            <button onclick="downloadMTRReport()" class="btn-download">⬇️ Download PDF</button>
+            <div id="reportContent"></div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 Harikrishnan | BBW Production Dashboard | Offline & Online Support</p>
+</footer>
+
+<script src="script.js"></script>
+<script src="sw-register.js"></script>
+
+</body>
+</html>
