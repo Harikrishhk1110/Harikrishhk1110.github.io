@@ -1,4 +1,4 @@
-# 📁 Harikrishnan Document Hub & BBW Production Dashboard
+# 📁  BBW Staging Dashboard
 
 A complete **offline-first** web application for document management and material request tracking. Works seamlessly **online and offline** using Progressive Web App (PWA) technology.
 
